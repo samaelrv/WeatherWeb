@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="WeatherReportImplService" targetNamespace="http://service.weather.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.weather.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+<import namespace="http://service.weather.com/" schemaLocation="WeatherReportImplService_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="gettemperature">
+    <wsdl:part name="parameters" element="tns:gettemperature">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gettemperatureResponse">
+    <wsdl:part name="parameters" element="tns:gettemperatureResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="WeatherReport">
+    <wsdl:operation name="gettemperature">
+      <wsdl:input name="gettemperature" message="tns:gettemperature">
+    </wsdl:input>
+      <wsdl:output name="gettemperatureResponse" message="tns:gettemperatureResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WeatherReportImplServiceSoapBinding" type="tns:WeatherReport">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="gettemperature">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="gettemperature">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="gettemperatureResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WeatherReportImplService">
+    <wsdl:port name="WeatherReportImplPort" binding="tns:WeatherReportImplServiceSoapBinding">
+      <soap:address location="http://localhost:9090/WeatherReportImplPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
