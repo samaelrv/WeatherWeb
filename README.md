@@ -65,68 +65,97 @@ Site Reliability Engineering (SRE) Debug Pod
 
 _------_-----------------_----------------_--------------------_----------
 
-#!/usr/bin/env python3
-"""
-Draws a 'filled' ASCII banner in terminal by replacing non-space glyphs
-with solid block characters and coloring them electric-orange (#FF6600).
-"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SRE Debug Pod</title>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
 
-import os
-import sys
+    pre {
+      font-size: 14px;
+      line-height: 1.2;
+      white-space: pre;
+      animation: glow 2s ease-in-out infinite alternate;
+      color: #b366ff;
+    }
 
-# Optional: on Windows, if colorama is installed it will make ANSI work reliably
-try:
-    import colorama
-    colorama.init()
-except Exception:
-    # colorama not required; script still attempts to use ANSI escapes
-    pass
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #9933ff, 0 0 10px #6600cc, 0 0 20px #330066;
+      }
+      to {
+        text-shadow: 0 0 10px #cc99ff, 0 0 20px #9933ff, 0 0 40px #6600cc;
+      }
+    }
 
-# Your original ASCII banner lines (preserve exact spacing)
-BANNER = [
-"  ____  ____  _____ ____  _____ ",
-" / ___||  _ \\| ____|  _ \\| ____|",
-" \\___ \\| |_) |  _| | | | |  _|  ",
-"  ___) |  _ <| |___| |_| | |___ ",
-" |____/|_| \\_\\_____|____/|_____|"
-]
+    h3 {
+      color: #66ff99;
+    }
 
-# You can change this to False to use a fallback char instead of the block glyph
-USE_BLOCK_GLYPH = True
+    .section {
+      border-top: 1px solid #333;
+      margin-top: 20px;
+      padding-top: 10px;
+    }
 
-# Fallback char if terminal doesn't render block glyph well
-FALLBACK_CHAR = "#"
+    a {
+      color: #00ffcc;
+      text-decoration: none;
+    }
 
-# ANSI truecolor foreground (not needed if we color the blocks only, but fine)
-ORANGE = "\033[38;2;255;102;0m"   # electric orange (#FF6600)
-RESET = "\033[0m"
+    a:hover {
+      text-decoration: underline;
+    }
 
-# The glyph to draw for each "non-space" pixel
-BLOCK = "█" if USE_BLOCK_GLYPH else FALLBACK_CHAR
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: #00ffcc;
+      animation: blink 1s step-end infinite;
+    }
 
-def supports_unicode_block():
-    # Quick check: if stdout encoding supports utf-8
-    try:
-        return sys.stdout.encoding.lower().startswith("utf")
-    except Exception:
-        return False
+    @keyframes blink {
+      50% {
+        background-color: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
 
-def draw_filled_banner(lines):
-    use_block = BLOCK
-    # if terminal likely doesn't support unicode block, fall back
-    if USE_BLOCK_GLYPH and not supports_unicode_block():
-        use_block = FALLBACK_CHAR
+  <pre>
+███████╗██████╗ ███████╗
+██╔════╝██╔══██╗██╔════╝
+███████╗██████╔╝███████╗
+╚════██║██╔══██╗╚════██║
+███████║██║  ██║███████║
+╚══════╝╚═╝  ╚═╝╚══════╝
 
-    # Build and print each line: replace every non-space char with block
-    out_lines = []
-    for line in lines:
-        filled = "".join(use_block if ch != " " else " " for ch in line)
-        out_lines.append(filled)
+Site Reliability Engineering (SRE) Debug Pod
+---------------------------------------------
+  </pre>
 
-    # Print with orange color
-    print(ORANGE + "\n".join(out_lines) + RESET)
+  <div class="section">
+    <h3>🧰 Debug Tool</h3>
+    <p>✅ Pod is running inside Kubernetes</p>
+    <p>✅ Ready to test internal DNS / HTTP / Ports</p>
+  </div>
 
-if __name__ == "__main__":
-    # If terminal width is small, we can center or simply print as-is.
-    # Currently printing as-is to preserve exact layout.
-    draw_filled_banner(BANNER)
+  <div class="section">
+    <p>🔗 Try: <code>/dns?host=&lt;your-internal-host&gt;</code></p>
+    <p>Example: <a href="/dns?host=myapp.svc.cluster.local">/dns?host=myapp.svc.cluster.local</a></p>
+  </div>
+
+  <div class="section">
+    <p>💡 Status: <span class="cursor"></span></p>
+  </div>
+
+</body>
+</html>
